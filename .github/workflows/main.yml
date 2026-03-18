@@ -24,10 +24,10 @@ jobs:
           node-version: 18
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       - name: Build site
-        run: npm install --legacy-peer-deps
+        run: npm install 
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
