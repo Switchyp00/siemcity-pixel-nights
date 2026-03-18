@@ -1,8 +1,8 @@
 const stats = [
-  { label: "CITIZENS", value: "1,247", icon: "👤" },
-  { label: "RULES SHARED", value: "3,891", icon: "📋" },
-  { label: "THREATS TRACKED", value: "12,044", icon: "🔍" },
-  { label: "UPTIME", value: "99.9%", icon: "⚡" },
+  { label: "LAB MACHINES", value: "4+", icon: "🖥" },
+  { label: "ATTACK PHASES", value: "3", icon: "⚔" },
+  { label: "WAZUH AGENTS", value: "LIVE", icon: "🛡" },
+  { label: "STATUS", value: "v2", icon: "⚡" },
 ];
 
 const StatsBar = () => {

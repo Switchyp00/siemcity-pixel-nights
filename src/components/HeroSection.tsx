@@ -24,7 +24,7 @@ const HeroSection = () => {
           </h1>
           <div className="h-8">
             <TerminalText
-              text="> Welcome to the cybersecurity community_"
+              text="> Building a SOC analyst lab, one attack chain at a time_"
               speed={40}
               className="text-sm sm:text-base text-muted-foreground"
             />
@@ -34,9 +34,9 @@ const HeroSection = () => {
 
       {/* Bottom CTA area */}
       <div className="relative z-10 mt-auto mb-16 flex flex-col items-center gap-4">
-        <PixelButton variant="primary">JOIN THE CITY</PixelButton>
+        <PixelButton variant="primary">EXPLORE THE LAB</PixelButton>
         <p className="font-pixel text-[7px] text-muted-foreground tracking-widest">
-          [ PRESS START TO BEGIN ]
+          [ PHASE 3: ATTACK + DETECTION IN PROGRESS ]
         </p>
       </div>
 
