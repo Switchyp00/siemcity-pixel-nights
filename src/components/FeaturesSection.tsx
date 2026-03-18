@@ -3,28 +3,28 @@ import { motion } from "framer-motion";
 
 const features = [
   {
-    title: "THREAT_INTEL.exe",
+    title: "AD_LAB.exe",
+    icon: "🏢",
+    description: "Active Directory lab with Domain Controller + workstation. Realistic enterprise environment for detection engineering.",
+    status: "ACTIVE",
+  },
+  {
+    title: "ATTACK_CHAIN.exe",
+    icon: "⚔",
+    description: "Nmap recon → vsftpd exploit → credential access → lateral movement. Real attack chains using Kali + Metasploitable.",
+    status: "ACTIVE",
+  },
+  {
+    title: "WAZUH_SIEM.exe",
     icon: "🛡",
-    description: "Real-time threat intelligence feeds and SIEM rule sharing. Stay ahead of adversaries.",
+    description: "Centralized logging & detection with Wazuh agents. Custom detection rules + MITRE ATT&CK mapping in progress.",
     status: "ACTIVE",
   },
   {
-    title: "DETECTION_LAB.exe",
-    icon: "🔬",
-    description: "Hands-on detection engineering labs. Build, test, and share Sigma rules with the community.",
-    status: "ACTIVE",
-  },
-  {
-    title: "FORUM_HQ.exe",
+    title: "COMMUNITY.exe",
     icon: "💬",
-    description: "Community forums for SOC analysts, threat hunters, and detection engineers. Your new home base.",
+    description: "Share labs, detection write-ups, and incident scenarios. A space for aspiring SOC analysts to learn together.",
     status: "COMING SOON",
-  },
-  {
-    title: "TOOL_SHED.exe",
-    icon: "⚒",
-    description: "Curated cybersecurity tools, scripts, and automation resources for blue teamers.",
-    status: "ACTIVE",
   },
 ];
 
@@ -42,10 +42,10 @@ const FeaturesSection = () => {
   return (
     <section className="py-20 px-4 max-w-7xl mx-auto">
       <h2 className="font-pixel text-lg sm:text-xl neon-text text-center mb-4">
-        // CITY_DISTRICTS
+        // LAB_INFRASTRUCTURE
       </h2>
       <p className="text-center text-muted-foreground font-mono text-sm mb-12 max-w-lg mx-auto">
-        Explore the districts of SIEM City. Each zone offers unique resources for cybersecurity professionals.
+        A production-style, open-source SOC lab. Built for hands-on detection engineering and real attack simulation.
       </p>
 
       <motion.div

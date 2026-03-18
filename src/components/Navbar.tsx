@@ -1,8 +1,8 @@
 const navItems = [
   { label: "HOME", icon: "⌂" },
-  { label: "INTEL", icon: "◈" },
-  { label: "TOOLS", icon: "⚙" },
-  { label: "FORUM", icon: "▤", comingSoon: true },
+  { label: "LAB", icon: "🖥" },
+  { label: "WRITE-UPS", icon: "📋", comingSoon: true },
+  { label: "COMMUNITY", icon: "💬", comingSoon: true },
 ];
 
 const Navbar = () => {
