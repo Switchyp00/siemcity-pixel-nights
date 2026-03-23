@@ -229,13 +229,19 @@ const SiemcityV2 = () => {
             {screenshots.map((shot) => (
               <motion.div key={shot.title} variants={fadeUp}>
                 <RetroWindow title={shot.title}>
-                  <div className="mb-3">
+                  <div
+                    className="mb-3 cursor-pointer group"
+                    onClick={() => setLightbox(shot)}
+                  >
                     <img
                       src={shot.src}
                       alt={shot.caption}
-                      className="w-full border border-border"
+                      className="w-full border border-border [image-rendering:auto] group-hover:opacity-80 transition-opacity"
                       loading="lazy"
                     />
+                    <span className="font-mono text-[9px] text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity block mt-1 text-center">
+                      Click to enlarge
+                    </span>
                   </div>
                   <h3 className="font-pixel text-[8px] text-primary mb-1">
                     {shot.caption}
