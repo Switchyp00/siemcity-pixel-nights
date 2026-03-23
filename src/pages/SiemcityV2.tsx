@@ -1,9 +1,15 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import RetroWindow from "@/components/RetroWindow";
 import PixelButton from "@/components/PixelButton";
 import { motion } from "framer-motion";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
   Table,
   TableBody,
