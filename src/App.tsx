@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
 import SiemcityV2 from "./pages/SiemcityV2.tsx";
+import SiemcityV2Phase2 from "./pages/SiemcityV2Phase2.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
