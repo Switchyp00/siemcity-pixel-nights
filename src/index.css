@@ -58,7 +58,6 @@
   body {
     @apply bg-background text-card-foreground font-mono;
     font-family: 'JetBrains Mono', monospace;
-    image-rendering: pixelated;
   }
 
   h1, h2, h3, h4, h5, h6 {
