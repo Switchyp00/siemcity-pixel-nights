@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import heroImage from "@/assets/siemcity-hero.png";
 import PixelButton from "./PixelButton";
 import TerminalText from "./TerminalText";
