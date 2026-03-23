@@ -83,6 +83,8 @@ const stagger = {
 };
 
 const SiemcityV2 = () => {
+  const [lightbox, setLightbox] = useState<typeof screenshots[number] | null>(null);
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
