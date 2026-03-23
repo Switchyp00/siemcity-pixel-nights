@@ -7,6 +7,7 @@ import Index from "./pages/Index.tsx";
 import SiemcityV2 from "./pages/SiemcityV2.tsx";
 import SiemcityV2Phase2 from "./pages/SiemcityV2Phase2.tsx";
 import SiemcityV2Phase3 from "./pages/SiemcityV2Phase3.tsx";
+import SiemcityV2Phase4 from "./pages/SiemcityV2Phase4.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
