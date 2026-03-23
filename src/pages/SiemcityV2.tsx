@@ -273,9 +273,11 @@ const SiemcityV2 = () => {
               Phase 1 — Lab Overview
             </p>
           </div>
-          <PixelButton variant="primary">
-            Next Phase → Infrastructure & Domain Setup
-          </PixelButton>
+          <Link to="/projects/siemcity-v2/phase-2">
+            <PixelButton variant="primary">
+              Next Phase → Infrastructure & Domain Setup
+            </PixelButton>
+          </Link>
         </motion.div>
       </main>
 
