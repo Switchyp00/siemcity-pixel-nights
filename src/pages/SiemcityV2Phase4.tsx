@@ -308,6 +308,32 @@ const SiemcityV2Phase4 = () => {
           </div>
         </motion.section>
 
+        {/* Detection Summary */}
+        <motion.section
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="mb-16"
+        >
+          <h2 className="font-pixel text-sm neon-text mb-4">
+            // DETECTION_SUMMARY
+          </h2>
+          <RetroWindow title="SUMMARY.md">
+            <div className="font-mono text-sm text-card-foreground leading-relaxed space-y-3">
+              <p>Wazuh successfully detected all simulated attack techniques across multiple stages of the attack chain:</p>
+              <div className="pl-4 space-y-1">
+                <p><span className="text-primary">•</span> Reconnaissance activity detected via rootcheck alerts (<span className="neon-text">Rule 510</span>)</p>
+                <p><span className="text-primary">•</span> Exploitation phase correlated with abnormal system behavior</p>
+                <p><span className="text-primary">•</span> Credential dumping activity confirmed via sensitive file access</p>
+                <p><span className="text-primary">•</span> Brute force attack detected with high severity <span className="neon-text">Rule 60204</span> (<span className="text-primary">Level 10</span>)</p>
+                <p><span className="text-primary">•</span> Additional alerts included <span className="neon-text">NTLM authentication</span> anomalies and <span className="neon-text">registry integrity</span> changes</p>
+              </div>
+              <p>This validates that the SIEM deployment provides full visibility across the attack lifecycle, from initial reconnaissance to post-exploitation.</p>
+            </div>
+          </RetroWindow>
+        </motion.section>
+
         {/* Phase Navigation */}
         <motion.div
           variants={fadeUp}
