@@ -62,7 +62,7 @@ const screenshots = [
     src: asanaBoard,
     caption: "Asana Project Board",
     description:
-      "Project tasks tracked in Asana across three phases: Lab Introduction, Infrastructure & Domain Setup, and Attack Simulation — all tasks completed on schedule",
+      "Project tasks tracked in Asana for the Lab Introduction phase — all tasks completed on schedule",
   },
 ];
 
