@@ -1,9 +1,15 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import RetroWindow from "@/components/RetroWindow";
 import PixelButton from "@/components/PixelButton";
 import { motion } from "framer-motion";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
   Table,
   TableBody,
@@ -77,6 +83,8 @@ const stagger = {
 };
 
 const SiemcityV2 = () => {
+  const [lightbox, setLightbox] = useState<typeof screenshots[number] | null>(null);
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -223,13 +231,19 @@ const SiemcityV2 = () => {
             {screenshots.map((shot) => (
               <motion.div key={shot.title} variants={fadeUp}>
                 <RetroWindow title={shot.title}>
-                  <div className="mb-3">
+                  <div
+                    className="mb-3 cursor-pointer group"
+                    onClick={() => setLightbox(shot)}
+                  >
                     <img
                       src={shot.src}
                       alt={shot.caption}
-                      className="w-full border border-border"
+                      className="w-full border border-border [image-rendering:auto] group-hover:opacity-80 transition-opacity"
                       loading="lazy"
                     />
+                    <span className="font-mono text-[9px] text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity block mt-1 text-center">
+                      Click to enlarge
+                    </span>
                   </div>
                   <h3 className="font-pixel text-[8px] text-primary mb-1">
                     {shot.caption}
@@ -266,6 +280,31 @@ const SiemcityV2 = () => {
       </main>
 
       <Footer />
+
+      <Dialog open={!!lightbox} onOpenChange={() => setLightbox(null)}>
+        <DialogContent className="max-w-4xl w-[95vw] bg-card border-border p-0 overflow-hidden">
+          <DialogTitle className="sr-only">{lightbox?.caption}</DialogTitle>
+          {lightbox && (
+            <>
+              <div className="bg-secondary px-3 py-2">
+                <span className="font-pixel text-[8px] text-primary-foreground tracking-wider">
+                  {lightbox.title}
+                </span>
+              </div>
+              <div className="p-4">
+                <img
+                  src={lightbox.src}
+                  alt={lightbox.caption}
+                  className="w-full [image-rendering:auto]"
+                />
+                <p className="font-mono text-xs text-muted-foreground mt-3">
+                  {lightbox.description}
+                </p>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
