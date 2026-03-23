@@ -280,6 +280,31 @@ const SiemcityV2 = () => {
       </main>
 
       <Footer />
+
+      <Dialog open={!!lightbox} onOpenChange={() => setLightbox(null)}>
+        <DialogContent className="max-w-4xl w-[95vw] bg-card border-border p-0 overflow-hidden">
+          <DialogTitle className="sr-only">{lightbox?.caption}</DialogTitle>
+          {lightbox && (
+            <>
+              <div className="bg-secondary px-3 py-2">
+                <span className="font-pixel text-[8px] text-primary-foreground tracking-wider">
+                  {lightbox.title}
+                </span>
+              </div>
+              <div className="p-4">
+                <img
+                  src={lightbox.src}
+                  alt={lightbox.caption}
+                  className="w-full [image-rendering:auto]"
+                />
+                <p className="font-mono text-xs text-muted-foreground mt-3">
+                  {lightbox.description}
+                </p>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
