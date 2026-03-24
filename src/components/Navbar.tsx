@@ -4,7 +4,7 @@ const navItems = [
   { label: "HOME", icon: "⌂", to: "/" },
   { label: "LAB", icon: "🖥", to: "/projects/siemcity-v2" },
   { label: "WRITE-UPS", icon: "📋", comingSoon: true },
-  { label: "COMMUNITY", icon: "💬", comingSoon: true },
+  { label: "COMMUNITY", icon: "💬", to: "/community", highlight: true },
 ];
 
 const Navbar = () => {
@@ -24,10 +24,15 @@ const Navbar = () => {
                 key={item.label}
                 to={item.to}
                 className={`flex items-center gap-2 font-pixel text-[8px] transition-colors ${
-                  location.pathname === item.to
-                    ? "text-primary"
-                    : "text-muted-foreground hover:text-primary"
+                  item.highlight
+                    ? location.pathname === item.to
+                      ? "text-secondary"
+                      : "text-secondary/80 hover:text-secondary animate-pulse-subtle"
+                    : location.pathname === item.to
+                      ? "text-primary"
+                      : "text-muted-foreground hover:text-primary"
                 }`}
+                style={item.highlight ? { textShadow: "0 0 8px hsl(255 90% 62% / 0.6)" } : undefined}
               >
                 <span className="text-sm">{item.icon}</span>
                 <span className="hidden sm:inline">{item.label}</span>
