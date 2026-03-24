@@ -4,7 +4,7 @@ const navItems = [
   { label: "HOME", icon: "⌂", to: "/" },
   { label: "LAB", icon: "🖥", to: "/projects/siemcity-v2" },
   { label: "WRITE-UPS", icon: "📋", comingSoon: true },
-  { label: "COMMUNITY", icon: "💬", comingSoon: true },
+  { label: "COMMUNITY", icon: "💬", to: "/community", highlight: true },
 ];
 
 const Navbar = () => {
