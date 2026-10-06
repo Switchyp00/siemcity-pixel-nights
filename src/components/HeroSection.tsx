@@ -35,8 +35,11 @@ const HeroSection = () => {
 
       {/* Bottom CTA area */}
       <div className="relative z-10 mt-auto mb-16 flex flex-col items-center gap-4">
+        <Link to="/app">
+          <PixelButton variant="primary">ENTER THE CITY</PixelButton>
+        </Link>
         <Link to="/projects/siemcity-v2">
-          <PixelButton variant="primary">EXPLORE THE LAB</PixelButton>
+          <PixelButton variant="secondary">EXPLORE THE LAB</PixelButton>
         </Link>
         <p className="font-pixel text-[7px] text-muted-foreground tracking-widest">
           [ PHASE 3: ATTACK + DETECTION IN PROGRESS ]
