@@ -4,11 +4,13 @@ import type { CityLocation } from "@/world/data/locations";
 export default function CityBuilding({ loc, onOpen }: { loc: CityLocation; onOpen: (l: CityLocation) => void }) {
   const p = loc.desktopPosition!;
   return (
+    <div className="absolute -translate-x-1/2 -translate-y-full"
+      style={{ left: `${p.x}%`, top: `${p.bottom}%`, width: `${p.width}%`, zIndex: p.z }}>
     <motion.button
       aria-label={`Open ${loc.name}`}
       onClick={() => onOpen(loc)}
-      className="group absolute -translate-x-1/2 -translate-y-full cursor-pointer outline-none"
-      style={{ left: `${p.x}%`, top: `${p.bottom}%`, width: `${p.width}%`, zIndex: p.z, transformOrigin: "50% 100%" }}
+      className="group relative block w-full cursor-pointer outline-none"
+      style={{ transformOrigin: "50% 100%" }}
       whileHover={{ y: -6 }}
       whileTap={{ scaleY: 0.9, scaleX: 1.05 }}
       transition={{ type: "spring", stiffness: 500, damping: 14 }}
@@ -23,5 +25,6 @@ export default function CityBuilding({ loc, onOpen }: { loc: CityLocation; onOpe
         </span>
       </span>
     </motion.button>
+    </div>
   );
 }
