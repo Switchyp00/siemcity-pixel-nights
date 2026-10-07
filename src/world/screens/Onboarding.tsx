@@ -35,7 +35,7 @@ export default function Onboarding() {
     if (await localCitizenRepo.isUsernameTaken(n)) return setErr("Handle already on the network");
     setErr(""); setStep("avatar");
   };
-  const saveAvatar = async (a: AvatarConfig) => setCreated(await register(name.trim(), a)) || setStep("registered");
+  const saveAvatar = async (a: AvatarConfig) => { setCreated(await register(name.trim(), a)); setStep("registered"); };
 
   return (
     <div className="min-h-[100dvh] max-w-md mx-auto px-5 py-8 flex flex-col bg-background scanline">

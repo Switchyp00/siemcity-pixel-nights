@@ -19,12 +19,17 @@ const HeroSection = () => {
 
       {/* Bottom CTA area */}
       <div className="relative z-10 mt-auto mb-16 flex flex-col items-center gap-4">
-        <Link to="/app">
-          <PixelButton variant="primary">ENTER THE CITY</PixelButton>
+        <Link to="/city">
+          <PixelButton variant="primary" className="text-sm px-10 py-4">ENTER THE CITY</PixelButton>
         </Link>
-        <Link to="/projects/siemcity-v2">
-          <PixelButton variant="secondary">EXPLORE THE LAB</PixelButton>
-        </Link>
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          <Link to="/projects/siemcity-v2">
+            <PixelButton variant="secondary">EXPLORE THE LAB</PixelButton>
+          </Link>
+          <Link to="/app" className="font-pixel text-[8px] px-4 py-3 border-2 border-border bg-card/80 text-muted-foreground hover:text-primary hover:border-primary transition-colors">
+            📱 MOBILE EXPERIENCE PREVIEW <span className="text-secondary">[DEMO]</span>
+          </Link>
+        </div>
       </div>
 
       {/* Scanline overlay */}
