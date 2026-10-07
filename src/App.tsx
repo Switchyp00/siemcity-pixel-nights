@@ -11,6 +11,7 @@ import SiemcityV2Phase4 from "./pages/SiemcityV2Phase4.tsx";
 import Community from "./pages/Community.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import WorldApp from "./world/WorldApp.tsx";
+import DesktopCity from "./pages/DesktopCity.tsx";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,7 @@ const App = () => (
           <Route path="/projects/siemcity-v2/phase-4" element={<SiemcityV2Phase4 />} />
           <Route path="/community" element={<Community />} />
           <Route path="/app/*" element={<WorldApp />} />
+          <Route path="/city" element={<DesktopCity />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -132,4 +132,24 @@
   .animate-pulse-subtle {
     animation: pulse-subtle 2.5s ease-in-out infinite;
   }
+
+  /* ---- Desktop city ---- */
+  .city-building { filter: drop-shadow(0 6px 0 hsl(var(--background) / 0.5)); }
+  .group:hover .city-building, .group:focus-visible .city-building {
+    filter: brightness(1.15) drop-shadow(0 0 10px hsl(var(--primary) / 0.7)) drop-shadow(0 0 2px hsl(var(--primary)));
+  }
+  @keyframes cloud-drift { from { transform: translateX(-30vw); } to { transform: translateX(130vw); } }
+  .cloud { left: 0; animation: cloud-drift linear infinite; }
+  @keyframes bird-fly { 0% { transform: translate(-5vw, 0); } 50% { transform: translate(55vw, -2vh); } 100% { transform: translate(120vw, 1vh); } }
+  .bird { left: 0; animation: bird-fly 38s linear infinite; animation-delay: -8s; }
+  @keyframes blink-light { 0%, 70%, 100% { opacity: .2; } 75%, 90% { opacity: 1; box-shadow: 0 0 6px hsl(var(--destructive)); } }
+  .blink-light { animation: blink-light 2.4s steps(1) infinite; }
+  /* Avenue from lower-left to upper-right and lower-right to upper-left */
+  @keyframes car-a { from { left: 2%; top: 92%; } to { left: 38%; top: 30%; } }
+  @keyframes car-b { from { left: 97%; top: 90%; } to { left: 63%; top: 31%; } }
+  .car-a { animation: car-a 14s linear infinite; transform: rotate(-58deg); }
+  .car-b { animation: car-b 14s linear infinite; transform: rotate(58deg); }
+  @media (prefers-reduced-motion: reduce) {
+    .city-ambient * { animation: none !important; }
+  }
 }
