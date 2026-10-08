@@ -1,10 +1,15 @@
+import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import type { CityLocation } from "@/world/data/locations";
 
 export default function CityBuilding({ loc, onOpen }: { loc: CityLocation; onOpen: (l: CityLocation) => void }) {
   const p = loc.desktopPosition!;
+  const ref = useRef<HTMLDivElement>(null);
+  const [below, setBelow] = useState(false);
+  // Viewport-aware: if the landmark's top is near the viewport top/HUD, drop the tooltip lower.
+  const measure = () => { const r = ref.current?.getBoundingClientRect(); setBelow(!!r && r.top < 150); };
   return (
-    <div className="absolute -translate-x-1/2 -translate-y-full"
+    <div ref={ref} onMouseEnter={measure} onFocus={measure} className="absolute -translate-x-1/2 -translate-y-full"
       style={{ left: `${p.x}%`, top: `${p.bottom}%`, width: `${p.width}%`, zIndex: p.z }}>
     <motion.button
       aria-label={`Open ${loc.name}`}
@@ -17,7 +22,7 @@ export default function CityBuilding({ loc, onOpen }: { loc: CityLocation; onOpe
     >
       <img src={loc.desktopAsset} alt={loc.name} draggable={false}
         className="w-full h-auto city-building transition-[filter] duration-150" />
-      <span className="pointer-events-none absolute left-1/2 -translate-x-1/2 -top-2 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity whitespace-nowrap retro-window px-3 py-2 text-left">
+      <span className={`pointer-events-none absolute left-1/2 -translate-x-1/2 ${below ? "top-[22%]" : "-top-2"} z-10 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity whitespace-nowrap retro-window px-3 py-2 text-left`}>
         <span className="block font-pixel text-[9px] neon-text">{loc.icon} {loc.name}</span>
         <span className="block font-mono text-[10px] text-muted-foreground mt-1">{loc.tagline}</span>
         <span className={`block font-pixel text-[6px] mt-1 ${loc.status === "online" ? "text-primary" : "text-secondary"}`}>

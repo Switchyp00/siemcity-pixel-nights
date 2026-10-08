@@ -1,3 +1,4 @@
+import { DISCOURSE_FORUM_URL } from "@/config/community";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import RetroWindow from "@/components/RetroWindow";
@@ -138,9 +139,13 @@ const Community = () => {
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
           variants={fadeUp}
         >
-          <a href="#" onClick={(e) => e.preventDefault()}>
-            <PixelButton variant="primary">GET EARLY ACCESS</PixelButton>
-          </a>
+          {DISCOURSE_FORUM_URL ? (
+            <a href={DISCOURSE_FORUM_URL} target="_blank" rel="noopener noreferrer">
+              <PixelButton variant="primary">ENTER COMMUNITY FORUM ↗</PixelButton>
+            </a>
+          ) : (
+            <PixelButton variant="primary" className="opacity-60 cursor-not-allowed">FORUM LINK COMING SOON</PixelButton>
+          )}
           <a href="#" onClick={(e) => e.preventDefault()}>
             <PixelButton variant="secondary">JOIN DISCORD</PixelButton>
           </a>
@@ -150,6 +155,9 @@ const Community = () => {
           className="font-mono text-[10px] text-muted-foreground mt-10"
           variants={fadeUp}
         >
+          Opens our Discourse forum in a new tab — sign in with your forum account.
+        </motion.p>
+        <motion.p className="font-mono text-[10px] text-muted-foreground mt-2" variants={fadeUp}>
           Powered by real projects — not just theory.
         </motion.p>
       </motion.section>
