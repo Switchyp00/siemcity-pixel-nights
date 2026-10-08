@@ -1,6 +1,5 @@
-import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useCitizen } from "../state/CitizenContext";
 import AvatarCreator from "../components/AvatarCreator";
 import AvatarSprite from "../components/AvatarSprite";
