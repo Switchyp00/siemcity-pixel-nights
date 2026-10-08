@@ -6,6 +6,7 @@ import AvatarSprite from "../components/AvatarSprite";
 import AvatarCreator from "../components/AvatarCreator";
 import RetroWindow from "@/components/RetroWindow";
 import { toast } from "sonner";
+import AiMissionCreator from "../components/AiMissionCreator";
 
 const LOCATIONS = [
   { id: "home", name: "Your Homebase", to: "/app/home", open: true },
@@ -61,7 +62,8 @@ export function MissionsScreen() {
     { t: "Visit Terminal Café", done: false },
   ];
   return (
-    <div className="p-4">
+    <div className="p-4 space-y-4">
+      <AiMissionCreator username={citizen?.username} />
       <RetroWindow title="MISSIONS.log" accentColor="primary">
         {m.map((x) => (
           <p key={x.t} className="font-mono text-xs py-2 border-b border-border last:border-0">
