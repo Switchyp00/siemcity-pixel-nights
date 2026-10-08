@@ -1,4 +1,4 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 import { useCitizen } from "../state/CitizenContext";
 
 const TABS = [
@@ -14,7 +14,7 @@ export default function AppShell() {
   return (
     <div className="h-[100dvh] flex flex-col bg-background max-w-md mx-auto border-x-2 border-border">
       <header className="h-12 shrink-0 flex items-center justify-between px-4 border-b-2 border-border bg-card/95">
-        <span className="font-pixel text-[10px]"><span className="neon-text">SIEM</span><span className="purple-text">CITY</span></span>
+        <Link to="/" className="font-pixel text-[8px] text-primary border-2 border-primary/60 px-2 h-8 flex items-center hover:bg-primary/10">← BACK TO SIEMCITY</Link>
         <span className="font-mono text-[10px] text-muted-foreground">{citizen?.networkAddress}</span>
       </header>
       <main className="flex-1 overflow-y-auto"><Outlet /></main>

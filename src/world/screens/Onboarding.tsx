@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useCitizen } from "../state/CitizenContext";
@@ -39,6 +40,7 @@ export default function Onboarding() {
 
   return (
     <div className="min-h-[100dvh] max-w-md mx-auto px-5 py-8 flex flex-col bg-background scanline">
+      <Link to="/" className="self-start font-pixel text-[8px] text-primary border-2 border-primary/60 px-2 h-8 flex items-center hover:bg-primary/10">← BACK TO SIEMCITY</Link>
       {step === "boot" && (
         <div className="flex-1 flex flex-col justify-center font-mono text-sm gap-2">
           {BOOT.slice(0, lines).map((l, i) => <p key={l} className={i === BOOT.length - 1 ? "neon-text" : "text-muted-foreground"}>&gt; {l}</p>)}

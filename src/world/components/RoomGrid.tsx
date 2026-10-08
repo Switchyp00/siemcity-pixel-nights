@@ -17,7 +17,19 @@ export default function RoomGrid({ room, editing, selected, onSelect, onTile, oc
   const pct = (n: number, of: number) => `${(n / of) * 100}%`;
   return (
     <div className="relative w-full aspect-square border-2 border-border bg-card overflow-hidden select-none"
-      style={{ backgroundImage: "linear-gradient(hsl(var(--border)/.5) 1px,transparent 1px),linear-gradient(90deg,hsl(var(--border)/.5) 1px,transparent 1px)", backgroundSize: `${100 / room.width}% ${100 / room.height}%` }}>
+      style={{
+        backgroundColor: "#3b2a22",
+        backgroundImage: [
+          "radial-gradient(ellipse at 30% 20%, hsl(var(--secondary)/.28), transparent 55%)",
+          "radial-gradient(ellipse at 85% 10%, hsl(var(--primary)/.18), transparent 45%)",
+          "linear-gradient(90deg,#00000033 1px,transparent 1px)",
+          "linear-gradient(#00000055 1px,transparent 1px)",
+          "repeating-linear-gradient(90deg,#4a3428 0 12%,#523a2c 12% 25%)",
+        ].join(","),
+        backgroundSize: `100% 100%,100% 100%,${100 / room.width}% ${100 / room.height}%,${100 / room.width}% ${50 / room.height}%,100% 100%`,
+        imageRendering: "pixelated",
+      }}>
+      <div className="absolute inset-x-0 top-0 h-[3%] pointer-events-none" style={{ background: "linear-gradient(90deg, hsl(var(--primary)/.7), hsl(var(--secondary)/.7))", boxShadow: "var(--neon-glow)" }} />
       {editing && (
         <div className="absolute inset-0 grid z-0" style={{ gridTemplateColumns: `repeat(${room.width},1fr)` }}>
           {Array.from({ length: room.width * room.height }).map((_, i) => (
