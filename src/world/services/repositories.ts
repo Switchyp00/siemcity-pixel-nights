@@ -62,8 +62,8 @@ export const cloudCitizenRepo: CitizenRepository = {
     throw new Error("Couldn't allocate a network address, try again");
   },
   async update(id, patch) {
-    const row: Record<string, unknown> = {};
-    if (patch.avatar) row.avatar = patch.avatar;
+    const row: { avatar?: never; bio?: string; display_name?: string; tutorial_done?: boolean } = {};
+    if (patch.avatar) row.avatar = patch.avatar as never;
     if (patch.bio !== undefined) row.bio = patch.bio;
     if (patch.displayName !== undefined) row.display_name = patch.displayName;
     if (patch.tutorialDone !== undefined) row.tutorial_done = patch.tutorialDone;
