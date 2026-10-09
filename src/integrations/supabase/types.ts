@@ -14,7 +14,95 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      citizens: {
+        Row: {
+          avatar: Json
+          bio: string
+          created_at: string
+          display_name: string
+          district: number
+          id: string
+          network_address: string
+          tutorial_done: boolean
+          updated_at: string
+          username: string
+        }
+        Insert: {
+          avatar?: Json
+          bio?: string
+          created_at?: string
+          display_name?: string
+          district?: number
+          id: string
+          network_address: string
+          tutorial_done?: boolean
+          updated_at?: string
+          username: string
+        }
+        Update: {
+          avatar?: Json
+          bio?: string
+          created_at?: string
+          display_name?: string
+          district?: number
+          id?: string
+          network_address?: string
+          tutorial_done?: boolean
+          updated_at?: string
+          username?: string
+        }
+        Relationships: []
+      }
+      homebases: {
+        Row: {
+          created_at: string
+          floor: string
+          height: number
+          id: string
+          inventory: Json
+          name: string
+          owner_id: string
+          placed: Json
+          settings: Json
+          updated_at: string
+          width: number
+        }
+        Insert: {
+          created_at?: string
+          floor?: string
+          height?: number
+          id?: string
+          inventory?: Json
+          name: string
+          owner_id: string
+          placed?: Json
+          settings?: Json
+          updated_at?: string
+          width?: number
+        }
+        Update: {
+          created_at?: string
+          floor?: string
+          height?: number
+          id?: string
+          inventory?: Json
+          name?: string
+          owner_id?: string
+          placed?: Json
+          settings?: Json
+          updated_at?: string
+          width?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "homebases_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: true
+            referencedRelation: "citizens"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
