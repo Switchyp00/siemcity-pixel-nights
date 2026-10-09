@@ -14,6 +14,7 @@ export interface AvatarConfig {
 export interface Citizen {
   id: string;
   username: string;
+  displayName?: string;
   networkAddress: string; // e.g. 192.SC.04.128
   district: number;       // subnet segment, meaningful later
   avatar: AvatarConfig;

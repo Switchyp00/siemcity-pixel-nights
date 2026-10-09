@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import cityBg from "@/assets/city/city-bg.jpg";
 import { getDesktopLocations, type CityLocation } from "@/world/data/locations";
-import { localCitizenRepo } from "@/world/services/repositories";
+import { cloudCitizenRepo } from "@/world/services/repositories";
 import type { Citizen } from "@/world/models";
 import CityBuilding from "@/city/CityBuilding";
 import Ambient from "@/city/Ambient";
@@ -14,7 +14,7 @@ export default function DesktopCity() {
   const [open, setOpen] = useState<CityLocation | null>(null);
   const [citizen, setCitizen] = useState<Citizen | null>(null);
   const close = useCallback(() => setOpen(null), []);
-  useEffect(() => { localCitizenRepo.getCurrent().then(setCitizen); document.title = "SIEMCITY — The City"; }, []);
+  useEffect(() => { cloudCitizenRepo.getCurrent().then(setCitizen).catch(() => setCitizen(null)); document.title = "SIEMCITY — The City"; }, []);
   const locations = getDesktopLocations();
 
   return (

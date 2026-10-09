@@ -88,8 +88,8 @@ export function ProfileScreen() {
       <p className="font-mono text-sm neon-text">{citizen.networkAddress}</p>
       <p className="font-mono text-[10px] text-muted-foreground">Citizen since {new Date(citizen.createdAt).toLocaleDateString()}</p>
       <button onClick={() => setEdit(true)} className="w-full h-12 border-2 border-primary font-pixel text-[8px] text-primary">EDIT AVATAR</button>
-      <a href="/community" className="w-full h-12 border-2 border-secondary font-pixel text-[8px] text-secondary flex items-center justify-center">COMMUNITY</a>
-      <button onClick={async () => { await signOut(); nav("/app", { replace: true }); }} className="w-full h-12 border-2 border-destructive font-pixel text-[8px] text-destructive">RESET CITIZEN</button>
+      <a href="https://siemcity.discourse.group/" target="_blank" rel="noopener noreferrer" className="w-full h-12 border-2 border-secondary font-pixel text-[8px] text-secondary flex items-center justify-center">ENTER THE COMMUNITY FORUM ↗</a>
+      <button onClick={async () => { await signOut(); nav("/app", { replace: true }); }} className="w-full h-12 border-2 border-destructive font-pixel text-[8px] text-destructive">LOG OUT</button>
     </div>
   );
 }
