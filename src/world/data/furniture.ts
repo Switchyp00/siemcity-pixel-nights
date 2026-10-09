@@ -22,7 +22,6 @@ export const STARTER_LAYOUT: Omit<PlacedFurniture, "uid">[] = [
   { defId: "rug", x: 3, y: 4, rot: 0 },
   { defId: "bed", x: 0, y: 0, rot: 0 },
   { defId: "desk", x: 4, y: 0, rot: 0 },
-  { defId: "crt", x: 4, y: 0, rot: 0 },
   { defId: "chair", x: 4, y: 1, rot: 0 },
   { defId: "rack", x: 7, y: 0, rot: 0 },
   { defId: "plant", x: 7, y: 7, rot: 0 },
@@ -31,4 +30,4 @@ export const STARTER_LAYOUT: Omit<PlacedFurniture, "uid">[] = [
   { defId: "rack", x: 7, y: 1, rot: 0 },
   { defId: "shelf", x: 2, y: 0, rot: 0 },
 ];
-export const STARTER_INVENTORY = ["lamp", "poster"];
+export const STARTER_INVENTORY = ["lamp", "poster", "crt"];
