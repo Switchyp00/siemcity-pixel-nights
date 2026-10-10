@@ -32,6 +32,12 @@ export interface FurnitureDef {
   w: number; // footprint in tiles at rotation 0
   h: number;
   starter: boolean;
+  art?: string;        // base sprite id (defaults to id); lets styles share art
+  hue?: number;        // style tint in degrees, applied to the base art
+  category?: string;   // bed | desk | chair | computer | seating | lighting | decor | tech | floor
+  style?: string;      // e.g. Classic, Neon, Teal, Midnight
+  collection?: string; // "starter" now; later "shop", "halloween", "winter"…
+  price?: number;      // reserved for the future furniture shop (0 = free)
 }
 
 export interface PlacedFurniture {

@@ -1,6 +1,6 @@
 // Pure room/grid logic, independent of UI. Future Room Engine builds on this.
 import type { Homebase, PlacedFurniture, Rotation } from "../models";
-import { furnitureById } from "../data/furniture";
+import { furnitureById, artOf } from "../data/furniture";
 
 export const footprint = (p: Pick<PlacedFurniture, "defId" | "rot">) => {
   const d = furnitureById(p.defId);
@@ -8,8 +8,8 @@ export const footprint = (p: Pick<PlacedFurniture, "defId" | "rot">) => {
 };
 
 // Floor items (rugs) can be overlapped; everything else blocks.
-const isFloor = (defId: string) => defId === "rug";
-const stackable = (a: string, b: string) => isFloor(a) || isFloor(b) || (a === "crt" && b === "desk") || (a === "desk" && b === "crt");
+const isFloor = (defId: string) => artOf(defId) === "rug";
+const stackable = (a: string, b: string) => { const x = artOf(a), y = artOf(b); return isFloor(a) || isFloor(b) || (x === "crt" && y === "desk") || (x === "desk" && y === "crt"); };
 
 export function canPlace(room: Homebase, item: PlacedFurniture): boolean {
   const { w, h } = footprint(item);
@@ -32,4 +32,4 @@ export function findFreeSpot(room: Homebase, item: PlacedFurniture): PlacedFurni
   return null;
 }
 
-export const zOrder = (p: PlacedFurniture) => (isFloor(p.defId) ? 0 : p.defId === "crt" ? 50 + p.y : 10 + p.y);
+export const zOrder = (p: PlacedFurniture) => (isFloor(p.defId) ? 0 : artOf(p.defId) === "crt" ? 50 + p.y : 10 + p.y);
