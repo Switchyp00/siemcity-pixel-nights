@@ -66,6 +66,12 @@ const Community = () => {
             </p>
           </RetroWindow>
         </motion.div>
+        <motion.div className="max-w-2xl mx-auto mt-8 flex flex-col items-center gap-2" variants={fadeUp}>
+          <a href={DISCOURSE_FORUM_URL} target="_blank" rel="noopener noreferrer" className="shadow-[var(--neon-glow)]">
+            <PixelButton variant="primary" className="text-sm px-10 py-4">ENTER THE COMMUNITY FORUM ↗</PixelButton>
+          </a>
+          <p className="font-mono text-[10px] text-muted-foreground">Opens in a new tab · forum accounts are separate from SIEMCITY for now</p>
+        </motion.div>
       </motion.section>
 
       {/* What You'll Find */}
@@ -139,13 +145,7 @@ const Community = () => {
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
           variants={fadeUp}
         >
-          {DISCOURSE_FORUM_URL ? (
-            <a href={DISCOURSE_FORUM_URL} target="_blank" rel="noopener noreferrer">
-              <PixelButton variant="primary">ENTER THE COMMUNITY FORUM ↗</PixelButton>
-            </a>
-          ) : (
-            <PixelButton variant="primary" className="opacity-60 cursor-not-allowed">FORUM LINK COMING SOON</PixelButton>
-          )}
+
           <a href="#" onClick={(e) => e.preventDefault()}>
             <PixelButton variant="secondary">JOIN DISCORD</PixelButton>
           </a>
