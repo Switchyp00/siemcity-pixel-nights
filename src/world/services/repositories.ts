@@ -3,6 +3,7 @@ import { STARTER_INVENTORY, STARTER_LAYOUT } from "../data/furniture";
 import { SIM_CITIZENS } from "../data/simCitizens";
 import { supabase } from "@/integrations/supabase/client";
 import { generateAddress } from "./networkAddress";
+import { migrateAvatar } from "../data/avatarParts";
 
 // Repository interfaces: UI talks to these, never to the database directly.
 // Same tables/IDs are intended for future native (Kotlin Multiplatform) clients.
@@ -27,7 +28,7 @@ type CitizenRow = {
 };
 const toCitizen = (r: CitizenRow, homebaseId = ""): Citizen => ({
   id: r.id, username: r.username, displayName: r.display_name || r.username, networkAddress: r.network_address,
-  district: r.district, avatar: r.avatar as AvatarConfig, bio: r.bio, tutorialDone: r.tutorial_done,
+  district: r.district, avatar: migrateAvatar(r.avatar as AvatarConfig), bio: r.bio, tutorialDone: r.tutorial_done,
   createdAt: r.created_at, homebaseId,
 });
 

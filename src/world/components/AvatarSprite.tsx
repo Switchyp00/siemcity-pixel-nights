@@ -1,15 +1,16 @@
 import { useId } from "react";
 import type { AvatarConfig } from "../models";
-import { BODY_PX, PARTS, Px, SKIN_TONES } from "../data/avatarParts";
+import { BODY_PX, PARTS, Px, SKIN_TONES, migrateAvatar } from "../data/avatarParts";
 
-const ORDER = ["bottom", "shoes", "top", "eyes", "brows", "mouth", "hair", "accessory"] as const;
+const ORDER = ["face", "bottom", "shoes", "top", "eyes", "brows", "nose", "mouth", "hair", "accessory"] as const;
 const SHADED = new Set(["skin", "hair", "top", "bottom"]);
 
-export default function AvatarSprite({ avatar, size = 96, className = "" }: { avatar: AvatarConfig; size?: number; className?: string }) {
+export default function AvatarSprite({ avatar: raw, size = 96, className = "" }: { avatar: AvatarConfig; size?: number; className?: string }) {
+  const avatar = migrateAvatar(raw);
   const fid = `ol${useId().replace(/:/g, "")}`;
   const colors: Record<string, string> = {
     skin: SKIN_TONES.find((s) => s.id === avatar.body)?.color ?? SKIN_TONES[0].color,
-    hair: avatar.hairColor, top: avatar.topColor, bottom: avatar.bottomColor,
+    hair: avatar.hairColor, top: avatar.topColor, bottom: avatar.bottomColor, shoe: avatar.shoeColor,
   };
   const layers: Px[] = [...BODY_PX];
   for (const cat of ORDER) {
@@ -17,7 +18,7 @@ export default function AvatarSprite({ avatar, size = 96, className = "" }: { av
     if (opt) layers.push(...opt.px);
   }
   return (
-    <svg viewBox="-1 -2 18 27" width={size} height={(size * 27) / 18} className={className} shapeRendering="crispEdges" aria-label="Citizen avatar">
+    <svg viewBox="-1 -3 18 28" width={size} height={(size * 28) / 18} className={className} shapeRendering="crispEdges" aria-label="Citizen avatar">
       <defs>
         {/* 1px dark pixel outline around the whole silhouette */}
         <filter id={fid} x="-20%" y="-20%" width="140%" height="140%">

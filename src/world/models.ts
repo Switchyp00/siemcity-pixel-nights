@@ -1,14 +1,14 @@
 // Core domain models for the SIEMCITY world. Shaped to map 1:1 onto future Cloud tables.
 
 export type AvatarCategory =
-  | "body" | "eyes" | "brows" | "mouth" | "hair" | "top" | "bottom" | "shoes" | "accessory";
+  | "body" | "face" | "eyes" | "brows" | "nose" | "mouth" | "hair" | "top" | "bottom" | "shoes" | "accessory";
 
 export interface AvatarConfig {
-  body: string; eyes: string; brows: string; mouth: string;
+  body: string; face: string; eyes: string; brows: string; nose: string; mouth: string;
   hair: string; hairColor: string;
   top: string; topColor: string;
   bottom: string; bottomColor: string;
-  shoes: string; accessory: string;
+  shoes: string; shoeColor: string; accessory: string;
 }
 
 export interface Citizen {
