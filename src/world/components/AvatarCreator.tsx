@@ -1,18 +1,19 @@
 import { useState } from "react";
 import type { AvatarConfig } from "../models";
-import { DEFAULT_AVATAR, PALETTE, PARTS, SKIN_TONES, randomAvatar } from "../data/avatarParts";
+import { DEFAULT_AVATAR, PALETTE, PARTS, SKIN_TONES, randomAvatar, migrateAvatar } from "../data/avatarParts";
 import AvatarSprite from "./AvatarSprite";
 import PixelButton from "@/components/PixelButton";
 
 type Tab = "body" | keyof typeof PARTS;
 const TABS: { id: Tab; label: string; color?: keyof AvatarConfig }[] = [
-  { id: "body", label: "SKIN" }, { id: "eyes", label: "EYES" }, { id: "brows", label: "BROWS" }, { id: "mouth", label: "MOUTH" },
+  { id: "body", label: "SKIN" }, { id: "face", label: "FACE" }, { id: "eyes", label: "EYES" }, { id: "brows", label: "BROWS" },
+  { id: "nose", label: "NOSE" }, { id: "mouth", label: "MOUTH" },
   { id: "hair", label: "HAIR", color: "hairColor" }, { id: "top", label: "TOP", color: "topColor" },
-  { id: "bottom", label: "BOTTOM", color: "bottomColor" }, { id: "shoes", label: "SHOES" }, { id: "accessory", label: "EXTRA" },
+  { id: "bottom", label: "BOTTOM", color: "bottomColor" }, { id: "shoes", label: "SHOES", color: "shoeColor" }, { id: "accessory", label: "EXTRA" },
 ];
 
 export default function AvatarCreator({ initial, onSave, saveLabel = "SAVE" }: { initial?: AvatarConfig; onSave: (a: AvatarConfig) => void; saveLabel?: string }) {
-  const [a, setA] = useState<AvatarConfig>(initial ?? DEFAULT_AVATAR);
+  const [a, setA] = useState<AvatarConfig>(initial ? migrateAvatar(initial) : DEFAULT_AVATAR);
   const [tab, setTab] = useState<Tab>("body");
   const t = TABS.find((x) => x.id === tab)!;
   const set = (patch: Partial<AvatarConfig>) => setA((p) => ({ ...p, ...patch }));
@@ -30,14 +31,15 @@ export default function AvatarCreator({ initial, onSave, saveLabel = "SAVE" }: {
             className={`shrink-0 font-pixel text-[7px] px-3 h-10 border-2 ${tab === x.id ? "border-primary text-primary bg-primary/10" : "border-border text-muted-foreground"}`}>{x.label}</button>
         ))}
       </div>
-      <div className="grid grid-cols-3 gap-2">
+      <p className="font-mono text-[9px] text-muted-foreground">{options.length} options</p>
+      <div className="grid grid-cols-4 gap-2 max-h-72 overflow-y-auto pr-1">
         {options.map((o) => {
           const active = a[tab] === o.id;
           return (
             <button key={o.id} onClick={() => set({ [tab]: o.id } as Partial<AvatarConfig>)}
-              className={`h-20 border-2 flex flex-col items-center justify-center gap-1 ${active ? "border-primary bg-primary/10" : "border-border bg-card"}`}>
-              <AvatarSprite avatar={{ ...a, [tab]: o.id }} size={28} />
-              <span className="font-mono text-[9px] text-card-foreground">{o.name}</span>
+              className={`h-[72px] border-2 flex flex-col items-center justify-center gap-1 ${active ? "border-primary bg-primary/10" : "border-border bg-card"}`}>
+              <AvatarSprite avatar={{ ...a, [tab]: o.id }} size={tab === "body" || ["face","eyes","brows","nose","mouth","hair","accessory"].includes(tab) ? 34 : 26} />
+              <span className="font-mono text-[8px] text-card-foreground leading-tight text-center">{o.name}</span>
             </button>
           );
         })}
@@ -52,7 +54,7 @@ export default function AvatarCreator({ initial, onSave, saveLabel = "SAVE" }: {
       )}
       <div className="grid grid-cols-3 gap-2">
         <button onClick={() => setA(randomAvatar())} className="h-12 border-2 border-secondary font-pixel text-[8px] text-secondary">RANDOM</button>
-        <button onClick={() => setA(initial ?? DEFAULT_AVATAR)} className="h-12 border-2 border-border font-pixel text-[8px] text-muted-foreground">RESET</button>
+        <button onClick={() => setA(initial ? migrateAvatar(initial) : DEFAULT_AVATAR)} className="h-12 border-2 border-border font-pixel text-[8px] text-muted-foreground">RESET</button>
         <PixelButton className="!px-2" onClick={() => onSave(a)}>{saveLabel}</PixelButton>
       </div>
     </div>

@@ -1,5 +1,9 @@
 // Data-keyed pixel art per furniture id (16x16 grid); replace with sprite sheets later.
-export default function FurnitureSprite({ id }: { id: string }) {
+import { FURNITURE } from "../data/furniture";
+
+export default function FurnitureSprite({ id: defId }: { id: string }) {
+  const def = FURNITURE.find((f) => f.id === defId);
+  const id = def?.art ?? defId;
   const p = "hsl(var(--primary))", s = "hsl(var(--secondary))", c = "hsl(var(--card))", m = "hsl(var(--muted))", b = "hsl(var(--background))";
   const o = "#0b0b18";
   const art: Record<string, JSX.Element> = {
@@ -17,7 +21,7 @@ export default function FurnitureSprite({ id }: { id: string }) {
     rug: <><rect x="0" y="0" width="16" height="16" fill={s} opacity=".55" /><rect x="2" y="2" width="12" height="12" fill="none" stroke={p} strokeWidth=".6" opacity=".7" /><rect x="6" y="6" width="4" height="4" fill={p} opacity=".35" /></>,
   };
   return (
-    <svg viewBox="0 0 16 16" preserveAspectRatio="none" className="w-full h-full" shapeRendering="crispEdges">
+    <svg viewBox="0 0 16 16" preserveAspectRatio="none" className="w-full h-full" shapeRendering="crispEdges" style={def?.hue ? { filter: `hue-rotate(${def.hue}deg) saturate(1.2)` } : undefined}>
       {art[id] ?? <rect width="16" height="16" fill={c} />}
     </svg>
   );

@@ -16,15 +16,15 @@ interface Props {
 export default function RoomGrid({ room, editing, selected, onSelect, onTile, occupant }: Props) {
   const pct = (n: number, of: number) => `${(n / of) * 100}%`;
   return (
-    <div className="relative w-full aspect-square border-2 border-border bg-card overflow-hidden select-none"
+    <div className="relative w-full aspect-square border-[6px] border-[#3a3556] shadow-[inset_0_0_0_2px_#15121f] bg-card overflow-hidden select-none"
       style={{
-        backgroundColor: "#3b2a22",
+        backgroundColor: "#262238",
         backgroundImage: [
           "radial-gradient(ellipse at 30% 20%, hsl(var(--secondary)/.28), transparent 55%)",
           "radial-gradient(ellipse at 85% 10%, hsl(var(--primary)/.18), transparent 45%)",
           "linear-gradient(90deg,#00000033 1px,transparent 1px)",
           "linear-gradient(#00000055 1px,transparent 1px)",
-          "repeating-linear-gradient(90deg,#4a3428 0 12%,#523a2c 12% 25%)",
+          "repeating-linear-gradient(90deg,#2c2842 0 12.5%,#302b48 12.5% 25%)",
         ].join(","),
         backgroundSize: `100% 100%,100% 100%,${100 / room.width}% ${100 / room.height}%,${100 / room.width}% ${50 / room.height}%,100% 100%`,
         imageRendering: "pixelated",

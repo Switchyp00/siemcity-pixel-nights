@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useCitizen } from "../state/CitizenContext";
 import RoomGrid from "../components/RoomGrid";
 import FurnitureSprite from "../components/FurnitureSprite";
-import { furnitureById } from "../data/furniture";
+import { furnitureById, FURNITURE } from "../data/furniture";
 import { canPlace, findFreeSpot, nextRot } from "../engine/room";
 import { newId } from "../services/repositories";
 import { toast } from "sonner";
@@ -11,6 +11,7 @@ export default function HomeScreen() {
   const { homebase, citizen, saveHomebase, updateCitizen } = useCitizen();
   const [editing, setEditing] = useState(false);
   const [sel, setSel] = useState<string | null>(null);
+  const [cat, setCat] = useState("bed");
   if (!homebase || !citizen) return <p className="p-6 font-mono text-xs text-muted-foreground">Loading homebase…</p>;
 
   const item = homebase.placed.find((p) => p.uid === sel);
@@ -63,6 +64,24 @@ export default function HomeScreen() {
                 ))}
               </div>
             )}
+          </div>
+          <div>
+            <p className="font-pixel text-[8px] text-muted-foreground mb-2">CATALOG · STARTER COLLECTION (FREE)</p>
+            <div className="flex gap-1 overflow-x-auto pb-1">
+              {[...new Set(FURNITURE.map((f) => f.category!))].map((c) => (
+                <button key={c} onClick={() => setCat(c)}
+                  className={`shrink-0 h-8 px-2 border-2 font-pixel text-[6px] ${cat === c ? "border-primary text-primary" : "border-border text-muted-foreground"}`}>{c.toUpperCase()}</button>
+              ))}
+            </div>
+            <div className="grid grid-cols-4 gap-2 mt-2">
+              {FURNITURE.filter((f) => f.category === cat).map((f) => (
+                <button key={f.id} onClick={() => { update(homebase.placed, [...homebase.inventory, f.id]); toast.success(`${f.name} added to inventory`); }}
+                  className="h-20 border-2 border-border bg-card p-1 flex flex-col items-center gap-1">
+                  <div className="w-9 h-9"><FurnitureSprite id={f.id} /></div>
+                  <span className="font-mono text-[7px] leading-tight text-center">{f.name}</span>
+                </button>
+              ))}
+            </div>
           </div>
         </>
       )}
