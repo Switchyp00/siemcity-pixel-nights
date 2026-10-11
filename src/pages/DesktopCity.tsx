@@ -33,7 +33,7 @@ export default function DesktopCity() {
           <span className="neon-text">SIEM</span><span className="purple-text">CITY</span>
         </Link>
         <div className="pointer-events-auto flex gap-2">
-          <Link to="/app" className="retro-window flex items-center gap-3 px-3 py-1">
+          <Link to="/citizen" className="retro-window flex items-center gap-3 px-3 py-1">
             {citizen ? <AvatarSprite avatar={citizen.avatar} size={22} /> : <span className="font-pixel text-sm text-muted-foreground">☺</span>}
             <span className="text-left">
               <span className="block font-pixel text-[8px] text-card-foreground">{citizen?.username ?? "GUEST"}</span>
