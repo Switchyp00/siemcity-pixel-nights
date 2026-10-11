@@ -8,6 +8,13 @@
       "when": 1791532985752,
       "tag": "0000_citizens_homebases",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791693034077,
+      "tag": "0001_district_chat",
+      "breakpoints": true
     }
   ]
 }

@@ -5,6 +5,7 @@ import { cloudCitizenRepo } from "@/world/services/repositories";
 import type { Citizen } from "@/world/models";
 import AvatarSprite from "@/world/components/AvatarSprite";
 import { DEFAULT_AVATAR } from "@/world/data/avatarParts";
+import DistrictChat, { useDistrictPresence } from "@/world/components/DistrictChat";
 
 // Reusable interior renderer: every enterable location is driven by its InteriorConfig.
 export default function LocationInterior() {
@@ -14,6 +15,7 @@ export default function LocationInterior() {
   const [pos, setPos] = useState(loc?.interior?.spawn ?? { x: 50, y: 60 });
   useEffect(() => { cloudCitizenRepo.getCurrent().then(setCitizen).catch(() => setCitizen(null)); }, []);
   useEffect(() => { if (loc) { document.title = `SIEMCITY — ${loc.name}`; setPos(loc.interior!.spawn); } }, [loc]);
+  const others = useDistrictPresence(loc?.id ?? slug, citizen, pos);
   if (!loc?.interior) return <Navigate to="/city" replace />;
   const it = loc.interior;
 
@@ -28,6 +30,13 @@ export default function LocationInterior() {
             className="absolute -translate-x-1/2 retro-window px-3 py-2 font-pixel text-[8px] neon-text hover:brightness-125 animate-pulse-subtle"
             style={{ left: `${h.x}%`, top: `${h.y}%` }}>◆ {h.label}</Link>
         ))}
+        {others.map((o) => (
+          <div key={o.id} className="absolute -translate-x-1/2 -translate-y-full transition-all duration-700 ease-out pointer-events-none"
+            style={{ left: `${o.x}%`, top: `${o.y}%` }}>
+            <AvatarSprite avatar={o.avatar} size={64} />
+            <p className="font-pixel text-[7px] text-center purple-text mt-1 whitespace-nowrap">{o.username}</p>
+          </div>
+        ))}
         <div className="absolute -translate-x-1/2 -translate-y-full transition-all duration-700 ease-out pointer-events-none"
           style={{ left: `${pos.x}%`, top: `${pos.y}%` }}>
           <AvatarSprite avatar={citizen?.avatar ?? DEFAULT_AVATAR} size={64} />
@@ -39,10 +48,11 @@ export default function LocationInterior() {
         <Link to="/city" className="pointer-events-auto retro-window px-4 py-2 font-pixel text-[9px] text-primary hover:bg-primary/10">← RETURN TO CITY</Link>
         <div className="retro-window px-4 py-2 text-right">
           <p className="font-pixel text-[10px] neon-text">{loc.icon} {loc.name}</p>
-          <p className="font-mono text-[10px] text-muted-foreground">{it.ambience}</p>
+          <p className="font-mono text-[10px] text-muted-foreground">{it.ambience} · {others.length + (citizen ? 1 : 0)} here</p>
         </div>
       </div>
-      <p className="absolute bottom-3 left-4 z-50 font-pixel text-[7px] text-muted-foreground pointer-events-none">&gt; CLICK THE FLOOR TO WALK</p>
+      <div className="absolute bottom-3 right-3 left-3 sm:left-auto z-50"><DistrictChat locationId={loc.id} name={loc.name} me={citizen} /></div>
+      <p className="absolute bottom-3 left-4 z-40 font-pixel text-[7px] text-muted-foreground pointer-events-none hidden sm:block">&gt; CLICK THE FLOOR TO WALK</p>
     </div>
   );
 }

@@ -14,6 +14,10 @@ import ResetPassword from "./pages/ResetPassword.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import WorldApp from "./world/WorldApp.tsx";
 import DesktopCity from "./pages/DesktopCity.tsx";
+import DesktopShell from "./desktop/DesktopShell.tsx";
+import DesktopProfile from "./desktop/DesktopProfile.tsx";
+import DesktopCreator from "./desktop/DesktopCreator.tsx";
+import DesktopHome from "./desktop/DesktopHome.tsx";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +38,11 @@ const App = () => (
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/app/*" element={<WorldApp />} />
           <Route path="/city" element={<DesktopCity />} />
+          <Route path="/citizen" element={<DesktopShell />}>
+            <Route index element={<DesktopProfile />} />
+            <Route path="home" element={<DesktopHome />} />
+            <Route path="creator" element={<DesktopCreator />} />
+          </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
