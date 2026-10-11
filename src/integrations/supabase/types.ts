@@ -53,6 +53,38 @@ export type Database = {
         }
         Relationships: []
       }
+      district_messages: {
+        Row: {
+          author_id: string
+          content: string
+          created_at: string
+          id: string
+          location_id: string
+        }
+        Insert: {
+          author_id?: string
+          content: string
+          created_at?: string
+          id?: string
+          location_id: string
+        }
+        Update: {
+          author_id?: string
+          content?: string
+          created_at?: string
+          id?: string
+          location_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "district_messages_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "citizens"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       homebases: {
         Row: {
           created_at: string
@@ -99,6 +131,35 @@ export type Database = {
             columns: ["owner_id"]
             isOneToOne: true
             referencedRelation: "citizens"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      message_reports: {
+        Row: {
+          created_at: string
+          id: string
+          message_id: string
+          reporter_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          message_id: string
+          reporter_id?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          message_id?: string
+          reporter_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "message_reports_message_id_fkey"
+            columns: ["message_id"]
+            isOneToOne: false
+            referencedRelation: "district_messages"
             referencedColumns: ["id"]
           },
         ]
