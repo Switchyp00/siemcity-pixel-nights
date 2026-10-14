@@ -3,6 +3,7 @@ import type { AvatarConfig } from "../models";
 import { DEFAULT_AVATAR, PARTS, SKIN_TONES, migrateAvatar } from "../data/avatarParts";
 import classicBody from "@/assets/avatars/v2/body-classic.svg";
 import classicHair from "@/assets/avatars/v2/hair-h5.svg";
+import classicFace from "@/assets/avatars/v2/face-classic.svg";
 import classicTop from "@/assets/avatars/v2/top-t7.svg";
 import classicBottom from "@/assets/avatars/v2/bottom-p2.svg";
 import classicShoes from "@/assets/avatars/v2/shoes-sh2.svg";
@@ -38,7 +39,7 @@ export default function AvatarSprite({ avatar: raw, size = 96, className = "" }:
     a.brows === DEFAULT_AVATAR.brows && a.nose === DEFAULT_AVATAR.nose &&
     a.mouth === DEFAULT_AVATAR.mouth;
   if (classicArt) {
-    const sprites = [classicBody, classicBottom, classicShoes, classicTop, classicHair];
+    const sprites = [classicBody, classicBottom, classicShoes, classicTop, classicFace, classicHair];
     return (
       <div className={className} role="img" aria-label="SIEMCITY Classic Citizen"
         style={{ width: size, height: size * 1.5, position: "relative", flexShrink: 0 }}>
