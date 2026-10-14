@@ -10,18 +10,42 @@ interface Msg { id: string; author_id: string; content: string; created_at: stri
 export function useDistrictPresence(locationId: string, me: Citizen | null, pos: { x: number; y: number }) {
   const [others, setOthers] = useState<PresentCitizen[]>([]);
   const ch = useRef<ReturnType<typeof supabase.channel> | null>(null);
+  const latest = useRef({ me, pos });
+  latest.current = { me, pos };
   useEffect(() => {
-    if (!me) return;
+    if (!me) {
+      setOthers([]);
+      return;
+    }
+    let subscribed = false;
     const channel = supabase.channel(`presence:${locationId}`, { config: { presence: { key: me.id } } });
+    const publish = () => {
+      const current = latest.current;
+      if (subscribed && current.me?.id === me.id) {
+        void channel.track({ id: me.id, username: current.me.username, avatar: current.me.avatar, ...current.pos });
+      }
+    };
     channel.on("presence", { event: "sync" }, () => {
       const state = channel.presenceState<PresentCitizen>();
-      setOthers(Object.entries(state).filter(([k]) => k !== me.id).map(([, v]) => v[v.length - 1]));
-    }).subscribe((s) => { if (s === "SUBSCRIBED") channel.track({ id: me.id, username: me.username, avatar: me.avatar, ...pos }); });
+      setOthers(Object.entries(state).filter(([key]) => key !== me.id)
+        .flatMap(([, entries]) => entries.length ? [entries[entries.length - 1]] : []));
+    }).subscribe((status) => {
+      subscribed = status === "SUBSCRIBED";
+      if (subscribed) publish();
+      else setOthers([]);
+    });
     ch.current = channel;
-    return () => { ch.current = null; supabase.removeChannel(channel); setOthers([]); };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    return () => {
+      subscribed = false;
+      if (ch.current === channel) ch.current = null;
+      void supabase.removeChannel(channel);
+    };
   }, [locationId, me?.id]);
-  useEffect(() => { if (me) ch.current?.track({ id: me.id, username: me.username, avatar: me.avatar, ...pos }); }, [pos.x, pos.y, me]);
+  useEffect(() => {
+    if (me && ch.current?.state === "joined") {
+      void ch.current.track({ id: me.id, username: me.username, avatar: me.avatar, ...pos });
+    }
+  }, [pos.x, pos.y, me]);
   return others;
 }
 
