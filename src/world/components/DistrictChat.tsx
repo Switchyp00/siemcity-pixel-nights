@@ -64,17 +64,21 @@ export default function DistrictChat({ locationId, name, me }: { locationId: str
   };
 
   useEffect(() => {
+    setMsgs([]);
+    setNames({});
+    setText("");
     if (!me) return;
     let alive = true;
     supabase.from("district_messages").select("id,author_id,content,created_at").eq("location_id", locationId)
       .order("created_at", { ascending: false }).limit(50).then(({ data, error }) => {
         if (error) return toast.error(error.message);
         if (!alive || !data) return;
-        setMsgs(data.reverse()); resolve(data.map((m) => m.author_id));
+        setMsgs((current) => [...new Map([...data.reverse(), ...current].map((m) => [m.id, m])).values()].sort((a, b) => a.created_at.localeCompare(b.created_at)).slice(-100));
+        resolve(data.map((m) => m.author_id));
       });
     const channel = supabase.channel(`chat:${locationId}`).on("postgres_changes",
       { event: "INSERT", schema: "public", table: "district_messages", filter: `location_id=eq.${locationId}` },
-      (p) => { const m = p.new as Msg; setMsgs((x) => x.some((y) => y.id === m.id) ? x : [...x, m].slice(-100)); resolve([m.author_id]); }).subscribe();
+      (p) => { if (!alive) return; const m = p.new as Msg; setMsgs((x) => x.some((y) => y.id === m.id) ? x : [...x, m].slice(-100)); resolve([m.author_id]); }).subscribe();
     return () => { alive = false; supabase.removeChannel(channel); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locationId, me?.id]);
