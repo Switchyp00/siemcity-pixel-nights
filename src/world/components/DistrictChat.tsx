@@ -10,18 +10,42 @@ interface Msg { id: string; author_id: string; content: string; created_at: stri
 export function useDistrictPresence(locationId: string, me: Citizen | null, pos: { x: number; y: number }) {
   const [others, setOthers] = useState<PresentCitizen[]>([]);
   const ch = useRef<ReturnType<typeof supabase.channel> | null>(null);
+  const latest = useRef({ me, pos });
+  latest.current = { me, pos };
   useEffect(() => {
-    if (!me) return;
+    if (!me) {
+      setOthers([]);
+      return;
+    }
+    let subscribed = false;
     const channel = supabase.channel(`presence:${locationId}`, { config: { presence: { key: me.id } } });
+    const publish = () => {
+      const current = latest.current;
+      if (subscribed && current.me?.id === me.id) {
+        void channel.track({ id: me.id, username: current.me.username, avatar: current.me.avatar, ...current.pos });
+      }
+    };
     channel.on("presence", { event: "sync" }, () => {
       const state = channel.presenceState<PresentCitizen>();
-      setOthers(Object.entries(state).filter(([k]) => k !== me.id).map(([, v]) => v[v.length - 1]));
-    }).subscribe((s) => { if (s === "SUBSCRIBED") channel.track({ id: me.id, username: me.username, avatar: me.avatar, ...pos }); });
+      setOthers(Object.entries(state).filter(([key]) => key !== me.id)
+        .flatMap(([, entries]) => entries.length ? [entries[entries.length - 1]] : []));
+    }).subscribe((status) => {
+      subscribed = status === "SUBSCRIBED";
+      if (subscribed) publish();
+      else setOthers([]);
+    });
     ch.current = channel;
-    return () => { ch.current = null; supabase.removeChannel(channel); setOthers([]); };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    return () => {
+      subscribed = false;
+      if (ch.current === channel) ch.current = null;
+      void supabase.removeChannel(channel);
+    };
   }, [locationId, me?.id]);
-  useEffect(() => { if (me) ch.current?.track({ id: me.id, username: me.username, avatar: me.avatar, ...pos }); }, [pos.x, pos.y, me]);
+  useEffect(() => {
+    if (me && ch.current?.state === "joined") {
+      void ch.current.track({ id: me.id, username: me.username, avatar: me.avatar, ...pos });
+    }
+  }, [pos.x, pos.y, me]);
   return others;
 }
 
@@ -40,17 +64,21 @@ export default function DistrictChat({ locationId, name, me }: { locationId: str
   };
 
   useEffect(() => {
+    setMsgs([]);
+    setNames({});
+    setText("");
     if (!me) return;
     let alive = true;
     supabase.from("district_messages").select("id,author_id,content,created_at").eq("location_id", locationId)
       .order("created_at", { ascending: false }).limit(50).then(({ data, error }) => {
         if (error) return toast.error(error.message);
         if (!alive || !data) return;
-        setMsgs(data.reverse()); resolve(data.map((m) => m.author_id));
+        setMsgs((current) => [...new Map([...data.reverse(), ...current].map((m) => [m.id, m])).values()].sort((a, b) => a.created_at.localeCompare(b.created_at)).slice(-100));
+        resolve(data.map((m) => m.author_id));
       });
     const channel = supabase.channel(`chat:${locationId}`).on("postgres_changes",
       { event: "INSERT", schema: "public", table: "district_messages", filter: `location_id=eq.${locationId}` },
-      (p) => { const m = p.new as Msg; setMsgs((x) => x.some((y) => y.id === m.id) ? x : [...x, m].slice(-100)); resolve([m.author_id]); }).subscribe();
+      (p) => { if (!alive) return; const m = p.new as Msg; setMsgs((x) => x.some((y) => y.id === m.id) ? x : [...x, m].slice(-100)); resolve([m.author_id]); }).subscribe();
     return () => { alive = false; supabase.removeChannel(channel); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locationId, me?.id]);
@@ -70,7 +98,7 @@ export default function DistrictChat({ locationId, name, me }: { locationId: str
   };
 
   return (
-    <div className="retro-window flex flex-col w-full sm:w-80 max-h-[60vh] sm:max-h-[70vh]" onClick={(e) => e.stopPropagation()}>
+    <div className="flex h-full min-h-0 w-full flex-col" onClick={(e) => e.stopPropagation()}>
       <button onClick={() => setOpen(!open)} className="flex justify-between items-center px-3 py-2 border-b-2 border-border font-pixel text-[8px] neon-text">
         <span># {name.toUpperCase()} CHAT</span><span>{open ? "–" : "+"}</span>
       </button>
@@ -78,7 +106,7 @@ export default function DistrictChat({ locationId, name, me }: { locationId: str
         <p className="p-3 font-mono text-[11px] text-muted-foreground">Log in with a Citizen to chat and appear here.</p>
       ) : (
         <>
-          <div className="flex-1 overflow-y-auto p-3 space-y-2 min-h-32">
+          <div className="min-h-0 flex-1 overflow-y-auto p-3 space-y-2">
             {msgs.length === 0 && <p className="font-mono text-[10px] text-muted-foreground">No messages yet. Say hi.</p>}
             {msgs.map((m) => (
               <div key={m.id} className="group font-mono text-[11px] leading-snug">
