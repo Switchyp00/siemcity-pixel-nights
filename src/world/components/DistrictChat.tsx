@@ -70,7 +70,7 @@ export default function DistrictChat({ locationId, name, me }: { locationId: str
   };
 
   return (
-    <div className="retro-window flex flex-col w-full sm:w-80 max-h-[60vh] sm:max-h-[70vh]" onClick={(e) => e.stopPropagation()}>
+    <div className="flex h-full min-h-0 w-full flex-col" onClick={(e) => e.stopPropagation()}>
       <button onClick={() => setOpen(!open)} className="flex justify-between items-center px-3 py-2 border-b-2 border-border font-pixel text-[8px] neon-text">
         <span># {name.toUpperCase()} CHAT</span><span>{open ? "–" : "+"}</span>
       </button>
@@ -78,7 +78,7 @@ export default function DistrictChat({ locationId, name, me }: { locationId: str
         <p className="p-3 font-mono text-[11px] text-muted-foreground">Log in with a Citizen to chat and appear here.</p>
       ) : (
         <>
-          <div className="flex-1 overflow-y-auto p-3 space-y-2 min-h-32">
+          <div className="min-h-0 flex-1 overflow-y-auto p-3 space-y-2">
             {msgs.length === 0 && <p className="font-mono text-[10px] text-muted-foreground">No messages yet. Say hi.</p>}
             {msgs.map((m) => (
               <div key={m.id} className="group font-mono text-[11px] leading-snug">
