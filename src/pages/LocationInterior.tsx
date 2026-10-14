@@ -5,7 +5,8 @@ import { cloudCitizenRepo } from "@/world/services/repositories";
 import type { Citizen } from "@/world/models";
 import AvatarSprite from "@/world/components/AvatarSprite";
 import { DEFAULT_AVATAR } from "@/world/data/avatarParts";
-import DistrictChat, { useDistrictPresence } from "@/world/components/DistrictChat";
+import { useDistrictPresence } from "@/world/components/DistrictChat";
+import DistrictSocialOverlay from "@/world/components/DistrictSocialOverlay";
 
 // Reusable interior renderer: every enterable location is driven by its InteriorConfig.
 export default function LocationInterior() {
@@ -51,7 +52,7 @@ export default function LocationInterior() {
           <p className="font-mono text-[10px] text-muted-foreground">{it.ambience} · {others.length + (citizen ? 1 : 0)} here</p>
         </div>
       </div>
-      <div className="absolute bottom-3 right-3 left-3 sm:left-auto z-50"><DistrictChat locationId={loc.id} name={loc.name} me={citizen} /></div>
+      <DistrictSocialOverlay locationId={loc.id} name={loc.name} me={citizen} />
       <p className="absolute bottom-3 left-4 z-40 font-pixel text-[7px] text-muted-foreground pointer-events-none hidden sm:block">&gt; CLICK THE FLOOR TO WALK</p>
     </div>
   );
