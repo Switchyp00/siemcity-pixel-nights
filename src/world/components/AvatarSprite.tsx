@@ -1,6 +1,11 @@
 import { useId } from "react";
 import type { AvatarConfig } from "../models";
-import { PARTS, SKIN_TONES, migrateAvatar } from "../data/avatarParts";
+import { DEFAULT_AVATAR, PARTS, SKIN_TONES, migrateAvatar } from "../data/avatarParts";
+import classicBody from "@/assets/avatars/v2/body-classic.svg";
+import classicHair from "@/assets/avatars/v2/hair-h5.svg";
+import classicTop from "@/assets/avatars/v2/top-t7.svg";
+import classicBottom from "@/assets/avatars/v2/bottom-p2.svg";
+import classicShoes from "@/assets/avatars/v2/shoes-sh2.svg";
 
 /**
  * SIEMCITY v2 pixel avatar. Native art grid: 48 x 72.
@@ -21,6 +26,29 @@ const partIndex = (category: keyof typeof PARTS, id: string) =>
 export default function AvatarSprite({ avatar: raw, size = 96, className = "" }: { avatar: AvatarConfig; size?: number; className?: string }) {
   const a = migrateAvatar(raw);
   const uid = useId().replace(/:/g, "");
+  // First production art milestone: a fully aligned Classic sprite stack.
+  // Other combinations continue using the new 48x72 procedural renderer
+  // until their matching layered artwork has been authored.
+  const classicArt = a.body === "s4" && a.hair === "h5" &&
+    a.hairColor.toLowerCase() === "#6b4226" &&
+    a.top === "t7" && a.topColor.toLowerCase() === "#e94560" &&
+    a.bottom === "p2" && a.bottomColor.toLowerCase() === "#2f2f45" &&
+    a.shoes === "sh2" && a.accessory === DEFAULT_AVATAR.accessory &&
+    a.face === DEFAULT_AVATAR.face && a.eyes === DEFAULT_AVATAR.eyes &&
+    a.brows === DEFAULT_AVATAR.brows && a.nose === DEFAULT_AVATAR.nose &&
+    a.mouth === DEFAULT_AVATAR.mouth;
+  if (classicArt) {
+    const sprites = [classicBody, classicBottom, classicShoes, classicTop, classicHair];
+    return (
+      <div className={className} role="img" aria-label="SIEMCITY Classic Citizen"
+        style={{ width: size, height: size * 1.5, position: "relative", flexShrink: 0 }}>
+        {sprites.map((src) => (
+          <img key={src} src={src} alt="" draggable={false}
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", imageRendering: "pixelated" }} />
+        ))}
+      </div>
+    );
+  }
   const skin = SKIN_TONES.find((s) => s.id === a.body)?.color ?? SKIN_TONES[0].color;
   const hair = a.hairColor, top = a.topColor, pants = a.bottomColor, shoes = a.shoeColor;
   const hairStyle = partIndex("hair", a.hair);
