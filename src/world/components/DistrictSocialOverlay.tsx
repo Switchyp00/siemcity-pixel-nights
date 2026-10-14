@@ -30,8 +30,7 @@ export default function DistrictSocialOverlay({ locationId, name, me }: District
       >
         {expanded ? "»" : "«"}
       </button>
-      {expanded && (
-        <div className="flex min-w-0 flex-1 flex-col overflow-hidden border-l-2 border-primary bg-background/95 shadow-2xl backdrop-blur-sm">
+      <div className={`min-w-0 flex-1 flex-col overflow-hidden border-l-2 border-primary bg-background/95 shadow-2xl backdrop-blur-sm ${expanded ? "flex" : "hidden"}`}>
           <div className="flex border-b-2 border-border" role="tablist" aria-label="District communications">
             <button type="button" role="tab" aria-selected={tab === "text"}
               onClick={() => setTab("text")}
@@ -70,7 +69,6 @@ export default function DistrictSocialOverlay({ locationId, name, me }: District
             </div>
           )}
         </div>
-      )}
     </aside>
   );
 }
