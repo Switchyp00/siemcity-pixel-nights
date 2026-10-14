@@ -1,6 +1,7 @@
 import { useId } from "react";
 import type { AvatarConfig } from "../models";
 import { BODY_PX, PARTS, Px, SKIN_TONES, migrateAvatar } from "../data/avatarParts";
+import { avatarPartDetail } from "../data/avatarDetailOverlays";
 
 const ORDER = ["face", "bottom", "shoes", "top", "eyes", "brows", "nose", "mouth", "hair", "accessory"] as const;
 const SHADED = new Set(["skin", "hair", "top", "bottom"]);
@@ -15,7 +16,11 @@ export default function AvatarSprite({ avatar: raw, size = 96, className = "" }:
   const layers: Px[] = [...BODY_PX];
   for (const cat of ORDER) {
     const opt = PARTS[cat].find((o) => o.id === avatar[cat]);
-    if (opt) layers.push(...opt.px);
+    if (opt) {
+      layers.push(...opt.px);
+      // Keep embellishments on their own garment layer, beneath subsequent items.
+      layers.push(...avatarPartDetail(cat, opt.id));
+    }
   }
   return (
     <svg viewBox="-1 -3 18 28" width={size} height={(size * 28) / 18} className={className} shapeRendering="crispEdges" aria-label="Citizen avatar">
